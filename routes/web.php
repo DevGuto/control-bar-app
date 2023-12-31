@@ -15,8 +15,27 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return redirect('/home');
+    });
+
+    Route::get('/home', function () {
+        return view('home');
+    });
+
+});
+
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', function () {
+        return redirect('/login');
+    });
+
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //Route::middleware(['auth'])->group(function () {
@@ -39,8 +58,9 @@ Route::controller(ClientsController::class)->group(function () {
     Route::patch('/home/{id}', 'update')->name("update");
     Route::delete('/delete/{id}', 'destroy')->name("delete");
     Route::get('/detalhes', 'detalhes')->name("detalhes");
+    Route::get('/buscarCPF', 'buscarCPF')->name('buscarCPF');
   });
 
 
 
-  
+

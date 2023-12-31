@@ -13,6 +13,7 @@ class ClientsController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         $clients = Clients::query()->get();
@@ -120,5 +121,14 @@ class ClientsController extends Controller
     public function detalhes()
     {
         return view('detalhes');
+    }
+
+    public function buscarCPF(Request $request)
+    {
+        $cpf = $request->input('cpf');
+
+        $cliente = Clients::where('cpf', $cpf)->first();
+
+        return view('detalhes', ['cliente' => $cliente]);
     }
 }
