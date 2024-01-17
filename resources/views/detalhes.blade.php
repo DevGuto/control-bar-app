@@ -9,6 +9,24 @@
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
+   <style>
+     body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            min-width: 100%;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+        }
+
+        .conteudo {
+            font-size: 2vw;
+        }
+   </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
@@ -36,30 +54,46 @@
       </div>
     </nav>
     <div class="container">
-    <br>
-    <h2>Situação do Cliente</h2>
-    <br>
-    <div class="form-group">
-        <label for="usr">Digite o CPF do Cliente:</label>
-        <input name='nome' type="text" class="form-control" id="usr">
+    <div class="mt-5">
+        <h2 class="text-center conteudo">Situação do Cliente</h2>
     </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Buscar</button>
-    <br>
-    <br>
-    <br>
-    <h1>Nome:</h1>
-    <h2 style="text-align: center;">Usuário 1</h2>
-    <br>
-    <!--<h1>Status:</h1>
-    <h1 style="background: #008000; color: #FFF; text-align: center;">Liberado</h1>
-    -->
-    <h1>Status:</h1>
-    <h1 style="background: #F00; color: #FFF; text-align: center;">Bloqueado</h1>
-    <br>
-    <h1>Obs:</h1>
-    <h2 style="text-align: center;">Brigas dentro do Estabelecimento</h2>
 
+    <form action="{{ route('buscarCPF') }}" method="get">
+    @csrf
+    <div class="form-group mt-4">
+        <label for="cpf" class="conteudo">Digite o CPF do Cliente:</label>
+        <input name='cpf' type="text" class="form-control conteudo" id="cpf">
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary conteudo">Buscar</button>
+    </div>
+</form>
+
+    @if(isset($cliente))
+
+        <div class="mt-5">
+            <h1 class="conteudo">Nome:</h1>
+            <h2 class="text-center conteudo">{{$cliente->nome}}</h2>
+        </div>
+
+        <div class="mt-4">
+            <h1 class="conteudo">Status:</h1>
+            @if($cliente->status == 0)
+                <h1 class="text-center conteudo" style="background: #F00; color: #FFF;">Bloqueado</h1>
+            @else
+                <h1 class="text-center conteudo" style="background: #080; color: #FFF;">Acesso liberado</h1>
+            @endif
+        </div>
+
+        <div class="mt-4">
+            <h1 class="conteudo">Obs:</h1>
+            <h2 class="text-center conteudo">{{$cliente->obs}}</h2>
+        </div>
+    @else
+        <!-- <p class="mt-4">Nenhum resultado encontrado.</p> -->
+    @endif
 </div>
+
 </body>
 </html>
